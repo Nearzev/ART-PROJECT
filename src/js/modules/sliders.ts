@@ -7,6 +7,7 @@ interface ISliders {
 export const sliders = ({slidesSelector, pos, prev, next}: ISliders) => {
     let slideIndex = 1;
     const slides: NodeListOf<HTMLElement> = document.querySelectorAll(slidesSelector);
+    let paused = 0;
 
     const showSlides = (n: number) => {
         if (n > slides.length) {
@@ -49,14 +50,27 @@ export const sliders = ({slidesSelector, pos, prev, next}: ISliders) => {
 
     }
 
-    if (pos === 'vertical') {
-        setInterval(() => {
-            changeSlides(1)
-            slides[slideIndex - 1].classList.add('slideInDown');
-        }, 3000);
-    } else {
-        setInterval(() => {
-            changeSlides(1)
-        }, 3000);
-    }
+    const activateAnimation = () => {
+        if (pos === 'vertical' ) {
+            paused = setInterval(() => {
+                changeSlides(1)
+                slides[slideIndex - 1].classList.add('slideInDown');
+            }, 3000);
+        } else {
+            paused = setInterval(() => {
+                changeSlides(1)
+            }, 3000);
+        }
+    } 
+    
+    activateAnimation();
+
+    const slidesParent = slides[0].parentNode as HTMLElement;
+    slidesParent.addEventListener('mouseenter', () => {
+        clearInterval(paused);
+    }) 
+
+    slidesParent.addEventListener('mouseleave', () => {
+        activateAnimation();
+    })
 };
