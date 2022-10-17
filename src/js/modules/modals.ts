@@ -27,6 +27,7 @@ export const modals = () => {
 
                 windows.forEach(window => {
                     closeModalWindow(window);
+                    window.classList.add('animated', 'fadeIn');
                 });
 
                 modal.style.display = 'block';
