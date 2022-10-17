@@ -1,5 +1,5 @@
 import {modals} from './modules/modals';
-import {sliders} from './modules/sleders';
+import {sliders} from './modules/sliders';
 
 window.addEventListener('DOMContentLoaded', () => {
     'usestrict'
