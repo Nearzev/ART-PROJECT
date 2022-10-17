@@ -1,12 +1,13 @@
 import {closeModalWindow} from "./closeModal"; 
 export const modals = () => {
+    let btnPressed = false;
     interface IBindModal {
         triggerSelector: string,
         modalSelector: string,
         closeSelector: string,
-        closeClickOverlay?: boolean
+        destroy?: boolean
     }
-    const bindModal = ({triggerSelector, modalSelector, closeSelector, closeClickOverlay = true}:IBindModal) =>{
+    const bindModal = ({triggerSelector, modalSelector, closeSelector, destroy = false}:IBindModal) =>{
         const triggers  = document.querySelectorAll(triggerSelector);
         const modal = document.querySelector(modalSelector) as HTMLDivElement;
         const close = document.querySelector(closeSelector) as HTMLButtonElement;
@@ -18,8 +19,15 @@ export const modals = () => {
                     e.preventDefault();
                 }
 
+                btnPressed = true;
+
+                if (destroy) {
+                    trigger.remove();
+                }
+
                 windows.forEach(window => {
                     closeModalWindow(window);
+                    window.classList.add('animated', 'fadeIn');
                 });
 
                 modal.style.display = 'block';
@@ -37,7 +45,7 @@ export const modals = () => {
         });
 
         modal.addEventListener('click', (e) => {
-            if (e.target === modal && closeClickOverlay === true) {
+            if (e.target === modal) {
                 windows.forEach(window => {
                     closeModalWindow(window);
                 });
@@ -72,17 +80,32 @@ export const modals = () => {
         }, time);
     });
 
+    const openByScroll = (selector: string) => {
+        window.addEventListener('scroll', () => {
+            if (!btnPressed && (window.pageYOffset + document.documentElement.clientHeight
+                >= document.documentElement.scrollHeight)) {
+                    const giftTrigger = document.querySelector(selector) as HTMLElement;
+                    giftTrigger.click();
+            }
+        });
+    };
+    
+    openByScroll('.fixed-gift');
     bindModal({
         triggerSelector: '.button-design', 
         modalSelector: '.popup-design', 
-        closeSelector: '.popup-design .popup-close',
-        closeClickOverlay: true
+        closeSelector: '.popup-design .popup-close'
     });  
     bindModal({
         triggerSelector: '.button-consultation', 
         modalSelector: '.popup-consultation', 
-        closeSelector: '.popup-consultation .popup-close',
-        closeClickOverlay: true
+        closeSelector: '.popup-consultation .popup-close'
+    }); 
+    bindModal({
+        triggerSelector: '.fixed-gift', 
+        modalSelector: '.popup-gift', 
+        closeSelector: '.popup-gift .popup-close',
+        destroy: true
     }); 
     showModalByTime('.popup-consultation', 60000);
 };                            
