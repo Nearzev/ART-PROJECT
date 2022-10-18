@@ -12,14 +12,14 @@ export const forms = () => {
         loading: 'Загрузка...',
         success: 'Спасибо! Скоро мы с вами свяжемся',
         failure: 'Что-то пошло не так',
-        spinner: 'assets/img/spinner.gif',
-        ok: 'assets/img/ok.png',
-        fail: 'assets/img/fail.png'
+        spinner: '../../assets/img/spinner.gif',
+        ok: '../../assets/img/ok.png',
+        fail: '../../assets/img/fail.png'
     };
 
     const path = {
-        designer: 'assets/server.php',
-        question: 'assets/question.php'
+        designer: '../../assets/server.php',
+        question: '../../assets/question.php'
     }
 
     const postData = async (url: string, data: BodyInit) => {

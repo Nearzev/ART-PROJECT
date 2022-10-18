@@ -1,10 +1,11 @@
 import {modals} from './modules/modals';
 import {sliders} from './modules/sliders';
 import {forms} from './modules/forms';
+import {mask} from './modules/mask';
+import {checkTextInputs} from './modules/checkTextInputs';
 
 window.addEventListener('DOMContentLoaded', () => {
     'usestrict'
-    forms();
     modals();
     sliders({
         slidesSelector:'.feedback-slider-item', 
@@ -18,5 +19,9 @@ window.addEventListener('DOMContentLoaded', () => {
         prev:'', 
         next:'',
     });
+    forms();
+    mask('[name="phone"]');
+    checkTextInputs('[name="name"]');
+    checkTextInputs('[name="message"]');
 });
 
